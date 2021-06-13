@@ -40,7 +40,7 @@ public Task StartAsync(CancellationToken cancellationToken)
                 {
                     Console.WriteLine("Checking errors");
 
-                    Dictionary<string, int> errors = new Dictionary<string, int>();
+                    SortedDictionary<string, int> errors = new SortedDictionary<string, int>();
                     string fileLines  = File.ReadAllText(_errcConfig.Value.FileName);
                     Console.WriteLine(fileLines.Length.ToString());
                     string[] words = {"neco"};
@@ -52,14 +52,15 @@ public Task StartAsync(CancellationToken cancellationToken)
 
                         string err = FindSubstring(fileLines, i);
 
-                        // if(_errcConfig.Value.ErrorsToCheck.Contains(err))
-                        // {
+                        if(_errcConfig.Value.ErrorsToCheck.Contains(err))
+                        {
                             if(!errors.ContainsKey(err))
                                 errors.Add(err, 1);
                             else
                                 errors[err]++;
-                        // }
+                        }
                     }
+
 
                     foreach(KeyValuePair<string, int> kvp in errors)
                     {
